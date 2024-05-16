@@ -1,7 +1,13 @@
-from rest_framework import serializers
-from .models import Continent, Country, Region, City, Post, Tag, Comment
-from users.serializers import CustomUserSerializer
 import datetime
+
+from rest_framework import serializers
+from drf_extra_fields.fields import Base64ImageField
+
+from users.serializers import CustomUserSerializer
+from .models import (
+    Post, Comment, Tag,
+    Continent, Region, Country, Area, City,
+)
 
 
 class ContinentSerializer(serializers.ModelSerializer):
@@ -10,28 +16,36 @@ class ContinentSerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
-class CountrySerializer(serializers.ModelSerializer):
+class RegionSerializer(serializers.ModelSerializer):
     continent = ContinentSerializer(read_only=True)
 
     class Meta:
-        model = Country
+        model = Region
         fields = ['id', 'name', 'continent']
 
 
-class RegionSerializer(serializers.ModelSerializer):
+class CountrySerializer(serializers.ModelSerializer):
+    region = RegionSerializer(read_only=True)
+
+    class Meta:
+        model = Country
+        fields = ['id', 'name', 'region']
+
+
+class AreaSerializer(serializers.ModelSerializer):
     country = CountrySerializer(read_only=True)
 
     class Meta:
-        model = Region
+        model = Area
         fields = ['id', 'name', 'country']
 
 
 class CitySerializer(serializers.ModelSerializer):
-    region = RegionSerializer(read_only=True)
+    area = AreaSerializer(read_only=True)
 
     class Meta:
         model = City
-        fields = ['id', 'name', 'region']
+        fields = ['id', 'name', 'area']
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -56,19 +70,7 @@ class PostSerializer(serializers.ModelSerializer):
     country = CountrySerializer(read_only=True)
     region = RegionSerializer(read_only=True)
     city = CitySerializer(read_only=True)
-
-    class Meta:
-        model = Post
-        fields = [
-            'id', 'name', 'author', 'description', 'day', 'month', 'year',
-            'is_date_unknown', 'is_approx_date', 'continent', 'country', 'region', 'city',
-            'created_at', 'updated_at', 'tags', 'comments', 'is_location_unknown'
-        ]
-        extra_kwargs = {
-            'is_approx_date': {'help_text': 'Отметьте, если дата является примерной.'},
-            'is_date_unknown': {'help_text': 'Отметьте, если дата неизвестна.'},
-            'is_location_unknown': {'help_text': 'Отметьте, если место неизвестно.'},
-        }
+    photo = Base64ImageField()
 
     def validate(self, data):
         self.validate_location(data)
@@ -121,3 +123,16 @@ class PostSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Дата не может быть ранее 1826 года, когда была сделана первая фотография."
             )
+
+    class Meta:
+        model = Post
+        fields = [
+            'id', 'name', 'author', 'description', 'day', 'month', 'year',
+            'is_date_unknown', 'is_approx_date', 'continent', 'country', 'region', 'city',
+            'created_at', 'updated_at', 'tags', 'comments', 'is_location_unknown', 'photo'
+        ]
+        extra_kwargs = {
+            'is_approx_date': {'help_text': 'Отметьте, если дата фотосъёмки является примерной.'},
+            'is_date_unknown': {'help_text': 'Отметьте, если дата фотосъёмки неизвестна.'},
+            'is_location_unknown': {'help_text': 'Отметьте, если место фотосъёмки неизвестно.'},
+        }
