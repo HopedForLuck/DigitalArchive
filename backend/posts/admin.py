@@ -13,14 +13,10 @@ class PostAdmin(admin.ModelAdmin):
         "author",
         "description",
         "country",
-        "tags",
     )
     search_fields = (
         "name",
         "year",
-        "tags",
-    )
-    list_editable = (
         "tags",
     )
     list_filter = (

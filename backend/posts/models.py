@@ -35,7 +35,7 @@ class Post(models.Model):
     # Поля для работы с датой
     is_date_unknown = models.BooleanField(
         default=False,
-        verbose_name="Известна ли дата фотосъёмки",
+        verbose_name="Дата фотосъёмки неизвестна",
         help_text="Отметьте если дата фотосъёмки неизвестна",
     )
     day = models.IntegerField(
@@ -57,14 +57,14 @@ class Post(models.Model):
     )
     is_approx_date = models.BooleanField(
         default=False,
-        verbose_name="Указана ли примерная дата",
+        verbose_name="Дата фотосъёмки указана примерно",
         help_text="Отметьте если дата фотосъёмки указана примерно",
     )
 
     # Поля для работы с географическими данными
     is_location_unknown = models.BooleanField(
         default=False,
-        verbose_name="Известно ли место фотосъёмки",
+        verbose_name="Место фотосъёмки неизвестно",
         help_text="Отметьте если место фотосъёмки неизвестно",
     )
     continent = models.ForeignKey(
