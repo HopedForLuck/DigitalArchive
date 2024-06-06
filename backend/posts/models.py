@@ -110,8 +110,6 @@ class Post(models.Model):
         'Tag',
         verbose_name='Теги',
         related_name='posts',
-        null=True,
-        blank=True,
     )
 
     class Meta:

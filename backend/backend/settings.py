@@ -14,11 +14,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
-# Application definition
+# Объявление приложений
 
 INSTALLED_APPS = [
 
-    # Default apps
+    # Приложения по умолчанию
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,12 +27,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
 
-    # Project custom apps
+    # Кастомные приложения
     'posts.apps.PostsConfig',
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
 
-    # Imported apps
+    # Импортируемые приложения
     'rest_framework.authtoken',
     'rest_framework',
 
@@ -73,7 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-# Database for local deployment
+# База данных для локальной разработки
 
 DATABASES = {
     'default': {
@@ -82,7 +82,7 @@ DATABASES = {
     }
 }
 
-# Database for server deployment
+# База данных для выгрузки на сервер
 
 # DATABASES = {
 #     'default': {
@@ -95,8 +95,7 @@ DATABASES = {
 #     }
 # }
 
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+# Валидация паролей
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -114,8 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
+# Интернационализация
 
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'ru-RU'
@@ -129,8 +127,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+# Статика
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'collected_static'
@@ -139,11 +136,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Rest Framework Settings
+# Настройки Rest фреймворка
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -156,8 +152,10 @@ REST_FRAMEWORK = {
 
 }
 
-# User custom model
+# Кастомная модель пользователя
 
 AUTH_USER_MODEL = 'users.User'
+
+# Директория для шаблонов
 
 TEMPLATES_DIR = BASE_DIR / 'templates'
